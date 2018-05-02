@@ -1290,14 +1290,17 @@ class PageAdmin(PlaceholderAdminMixin, ModelAdmin):
         """
         Publish or unpublish a language of a page
         """
-        site = Site.objects.get_current()
         page = get_object_or_404(self.model, pk=page_id)
+        site = page.site  # Site.objects.get_current()
         if not page.has_publish_permission(request):
             return HttpResponseForbidden(force_text(_("You do not have permission to unpublish this page")))
         if not page.publisher_public_id:
             return HttpResponseForbidden(force_text(_("This page was never published")))
         try:
             page.unpublish(language)
+            # message = _('The %(language)s page "%(page)s" was successfully unpublished') % {
+            #     'language': get_language_object(language, site)['name'], 'page': page}
+
             message = _('The %(language)s page "%(page)s" was successfully unpublished') % {
                 'language': get_language_object(language, site)['name'], 'page': page}
             messages.info(request, message)
