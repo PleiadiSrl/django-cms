@@ -1298,9 +1298,6 @@ class PageAdmin(PlaceholderAdminMixin, ModelAdmin):
             return HttpResponseForbidden(force_text(_("This page was never published")))
         try:
             page.unpublish(language)
-            # message = _('The %(language)s page "%(page)s" was successfully unpublished') % {
-            #     'language': get_language_object(language, site)['name'], 'page': page}
-
             message = _('The %(language)s page "%(page)s" was successfully unpublished') % {
                 'language': get_language_object(language, site)['name'], 'page': page}
             messages.info(request, message)
