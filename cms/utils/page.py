@@ -154,6 +154,10 @@ def get_page_from_request(request, use_path=None, clean_path=None):
     preview = 'preview' in request.GET
     path = request.path_info if use_path is None else use_path
 
+    # taking care of the script_name (url sub-folder)
+    script_name = request.environ.get('SCRIPT_NAME', '')
+    path = script_name + path
+
     if clean_path:
         pages_root = reverse("pages-root")
 
